@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MediAI Care - Medical Records</title>
+
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
+
+
+body{
+
+    background:#f4f8fb;
+
+}
+
+
+
+/* Header */
+
+
+.header{
+
+    background:linear-gradient(135deg,#0072ff,#00c6ff);
+
+    color:white;
+
+    padding:30px;
+
+    text-align:center;
+
+}
+
+
+.header h1{
+
+    font-size:35px;
+
+}
+
+
+
+
+
+.container{
+
+    width:90%;
+
+    max-width:1100px;
+
+    margin:30px auto;
+
+}
+
+
+
+
+
+/* Patient Profile */
+
+
+.profile{
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:20px;
+
+    box-shadow:0 10px 25px #ddd;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    flex-wrap:wrap;
+
+}
+
+
+
+.profile h2{
+
+    color:#0072ff;
+
+}
+
+
+
+
+
+/* Search */
+
+
+.search-box{
+
+    margin:30px 0;
+
+}
+
+
+
+.search-box input{
+
+    width:100%;
+
+    padding:15px;
+
+    border-radius:15px;
+
+    border:1px solid #ccc;
+
+    font-size:16px;
+
+}
+
+
+
+
+
+/* Records */
+
+
+.records{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(280px,1fr));
+
+    gap:25px;
+
+}
+
+
+
+.record-card{
+
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:20px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.1);
+
+    transition:.3s;
+
+}
+
+
+
+.record-card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+
+
+.icon{
+
+    font-size:45px;
+
+}
+
+
+
+.record-card h2{
+
+    color:#0072ff;
+
+    margin:15px 0;
+
+}
+
+
+
+button{
+
+
+    padding:12px 20px;
+
+    border:none;
+
+    border-radius:25px;
+
+    background:#0072ff;
+
+    color:white;
+
+    cursor:pointer;
+
+    margin-top:15px;
+
+}
+
+
+
+button:hover{
+
+    background:#0056c7;
+
+}
+
+
+
+
+/* Prescription */
+
+
+.prescription{
+
+    background:#eafff5;
+
+    padding:20px;
+
+    margin-top:30px;
+
+    border-radius:20px;
+
+}
+
+
+
+</style>
+
+</head>
+
+
+
+
+<body>
+
+
+
+
+<div class="header">
+
+
+<h1>
+📁 Medical Records
+</h1>
+
+
+<p>
+Secure digital health records powered by MediAI
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="container">
+
+
+
+
+
+<div class="profile">
+
+
+<div>
+
+<h2>
+Patient Details
+</h2>
+
+<br>
+
+<p>
+Name: Varshitha
+</p>
+
+<p>
+Patient ID: MC10245
+</p>
+
+<p>
+Age: 20
+</p>
+
+
+</div>
+
+
+
+<div>
+
+
+<p>
+Blood Group: O+
+</p>
+
+
+<p>
+Last Visit:
+20 July 2026
+</p>
+
+
+<p>
+Primary Doctor:
+Dr. Priya Sharma
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<div class="search-box">
+
+
+<input 
+type="text"
+id="search"
+placeholder="Search medical records..."
+onkeyup="searchRecords()">
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="records" id="records">
+
+
+
+
+
+
+<div class="record-card">
+
+
+<div class="icon">
+🧪
+</div>
+
+
+<h2>
+Blood Test Report
+</h2>
+
+
+<p>
+Date: 10 July 2026
+</p>
+
+
+<p>
+Status:
+Normal
+</p>
+
+
+<button onclick="viewRecord('Blood Test Report')">
+
+View Report
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="record-card">
+
+
+<div class="icon">
+💊
+</div>
+
+
+<h2>
+Prescription
+</h2>
+
+
+<p>
+Doctor:
+Dr. Priya Sharma
+</p>
+
+
+<p>
+Medicine:
+Vitamin Supplements
+</p>
+
+
+<button onclick="viewRecord('Prescription')">
+
+View Prescription
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="record-card">
+
+
+<div class="icon">
+🩻
+</div>
+
+
+<h2>
+Medical Scan
+</h2>
+
+
+<p>
+Type:
+X-Ray Report
+</p>
+
+
+<p>
+Date:
+15 June 2026
+</p>
+
+
+<button onclick="viewRecord('X-Ray Report')">
+
+View Scan
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="record-card">
+
+
+<div class="icon">
+📋
+</div>
+
+
+<h2>
+Doctor Notes
+</h2>
+
+
+<p>
+Follow healthy diet and exercise regularly.
+</p>
+
+
+<button onclick="viewRecord('Doctor Notes')">
+
+View Notes
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<div class="prescription">
+
+
+<h2>
+Latest Health Advice 🩺
+</h2>
+
+
+<p>
+
+Maintain hydration, regular exercise,
+and schedule routine health checkups.
+
+</p>
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<script>
+
+
+
+function viewRecord(record){
+
+
+alert(
+"Opening: " + record
+);
+
+
+}
+
+
+
+
+
+
+
+function searchRecords(){
+
+
+let input =
+document
+.getElementById("search")
+.value
+.toLowerCase();
+
+
+
+let cards =
+document
+.querySelectorAll(".record-card");
+
+
+
+cards.forEach(card=>{
+
+
+let text =
+card.innerText.toLowerCase();
+
+
+
+if(text.includes(input)){
+
+
+card.style.display="block";
+
+
+}
+
+else{
+
+
+card.style.display="none";
+
+
+}
+
+
+
+});
+
+
+
+}
+
+
+
+</script>
+
+
+
+
+</body>
+
+</html>

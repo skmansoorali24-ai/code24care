@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MediAI Care - Register</title>
+
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
+
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:
+    linear-gradient(135deg,#00c6ff,#0072ff,#00d4a8);
+
+}
+
+
+
+/* Registration Card */
+
+.register-box{
+
+    width:450px;
+
+    padding:40px;
+
+    background:rgba(255,255,255,0.18);
+
+    backdrop-filter:blur(20px);
+
+    border-radius:20px;
+
+    box-shadow:0 20px 40px rgba(0,0,0,0.25);
+
+    color:white;
+
+}
+
+
+
+/* Header */
+
+.logo{
+
+    text-align:center;
+
+    margin-bottom:25px;
+
+}
+
+
+.logo h1{
+
+    font-size:32px;
+
+}
+
+
+.logo p{
+
+    margin-top:8px;
+
+    opacity:0.9;
+
+}
+
+
+
+/* Input Fields */
+
+.input-group{
+
+    position:relative;
+
+    margin:20px 0;
+
+}
+
+
+.input-group input,
+.input-group select{
+
+
+    width:100%;
+
+    padding:14px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:10px;
+
+    font-size:15px;
+
+}
+
+
+
+.input-group label{
+
+
+    position:absolute;
+
+    left:15px;
+
+    top:14px;
+
+    color:#777;
+
+    pointer-events:none;
+
+    transition:0.3s;
+
+}
+
+
+
+.input-group input:focus + label,
+.input-group input:valid + label{
+
+
+    top:-12px;
+
+    color:white;
+
+    font-size:13px;
+
+}
+
+
+
+/* Password Eye */
+
+.eye{
+
+    position:absolute;
+
+    right:15px;
+
+    top:14px;
+
+    cursor:pointer;
+
+}
+
+
+
+/* Button */
+
+button{
+
+
+    width:100%;
+
+    padding:15px;
+
+    margin-top:15px;
+
+    border:none;
+
+    border-radius:30px;
+
+    background:white;
+
+    color:#0072ff;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+
+
+button:hover{
+
+    transform:translateY(-3px);
+
+}
+
+
+
+/* Login Link */
+
+.login-link{
+
+    text-align:center;
+
+    margin-top:20px;
+
+}
+
+
+.login-link a{
+
+    color:white;
+
+    font-weight:bold;
+
+    text-decoration:none;
+
+}
+
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+
+<div class="register-box">
+
+
+<div class="logo">
+
+<h1>🩺 MediAI Care</h1>
+
+<p>Create Your Healthcare Account</p>
+
+</div>
+
+
+
+
+<form id="registerForm">
+
+
+
+<div class="input-group">
+
+<input 
+type="text"
+id="name"
+required>
+
+<label>Full Name</label>
+
+</div>
+
+
+
+
+<div class="input-group">
+
+<input 
+type="email"
+id="email"
+required>
+
+<label>Email Address</label>
+
+</div>
+
+
+
+
+<div class="input-group">
+
+<input 
+type="tel"
+id="phone"
+required>
+
+<label>Phone Number</label>
+
+</div>
+
+
+
+
+<div class="input-group">
+
+
+<select id="role" required>
+
+<option value="">
+Select User Type
+</option>
+
+<option>
+Patient
+</option>
+
+<option>
+Doctor
+</option>
+
+<option>
+Admin
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+
+
+<div class="input-group">
+
+
+<input 
+type="password"
+id="password"
+required>
+
+
+<label>Password</label>
+
+
+<span class="eye" onclick="showPassword()">
+
+👁
+
+</span>
+
+
+</div>
+
+
+
+
+
+<div class="input-group">
+
+
+<input 
+type="password"
+id="confirmPassword"
+required>
+
+
+<label>Confirm Password</label>
+
+
+</div>
+
+
+
+
+
+<button type="submit">
+
+Create Account
+
+</button>
+
+
+
+
+
+<p class="login-link">
+
+Already have an account?
+
+<a href="Login.html">
+
+Login
+
+</a>
+
+</p>
+
+
+
+
+</form>
+
+
+
+</div>
+
+
+
+
+
+
+<script>
+
+
+// Show Password
+
+
+function showPassword(){
+
+
+let pass =
+document.getElementById("password");
+
+
+if(pass.type==="password"){
+
+pass.type="text";
+
+}
+
+else{
+
+pass.type="password";
+
+}
+
+
+}
+
+
+
+
+// Registration Validation
+
+
+document
+.getElementById("registerForm")
+.addEventListener("submit",function(e){
+
+
+e.preventDefault();
+
+
+
+let name =
+document.getElementById("name").value;
+
+
+let email =
+document.getElementById("email").value;
+
+
+let password =
+document.getElementById("password").value;
+
+
+let confirm =
+document.getElementById("confirmPassword").value;
+
+
+
+if(password !== confirm){
+
+
+alert("Passwords do not match!");
+
+return;
+
+}
+
+
+
+
+alert(
+"Registration Successful! Welcome to MediAI Care"
+);
+
+
+
+window.location.href="Login.html";
+
+
+
+});
+
+
+
+</script>
+
+
+
+</body>
+
+</html>

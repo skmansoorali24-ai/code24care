@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MediAI Care - Login</title>
+
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
+
+
+body{
+
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:
+    linear-gradient(135deg,#0f9bff,#00d4a8);
+
+}
+
+
+
+/* Login Card */
+
+.login-box{
+
+    width:420px;
+    padding:40px;
+
+    background:rgba(255,255,255,0.18);
+
+    backdrop-filter:blur(20px);
+
+    border-radius:20px;
+
+    box-shadow:0 20px 40px rgba(0,0,0,0.2);
+
+    color:white;
+
+}
+
+
+
+/* Logo */
+
+.logo{
+
+    text-align:center;
+    margin-bottom:30px;
+
+}
+
+
+.logo h1{
+
+    font-size:32px;
+
+}
+
+
+.logo p{
+
+    margin-top:10px;
+    opacity:0.9;
+
+}
+
+
+
+/* Input Design */
+
+.input-group{
+
+    position:relative;
+    margin:25px 0;
+
+}
+
+
+
+.input-group input{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:10px;
+
+    font-size:16px;
+
+}
+
+
+
+.input-group label{
+
+    position:absolute;
+
+    left:15px;
+
+    top:15px;
+
+    color:#777;
+
+    transition:0.3s;
+
+}
+
+
+
+.input-group input:focus + label,
+.input-group input:valid + label{
+
+    top:-12px;
+
+    color:white;
+
+    font-size:13px;
+
+}
+
+
+
+/* Password Icon */
+
+.show-password{
+
+    position:absolute;
+
+    right:15px;
+
+    top:15px;
+
+    cursor:pointer;
+
+}
+
+
+
+/* Options */
+
+.options{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    font-size:14px;
+
+}
+
+
+.options a{
+
+    color:white;
+
+    text-decoration:none;
+
+}
+
+
+
+/* Button */
+
+button{
+
+
+    width:100%;
+
+    padding:15px;
+
+    margin-top:25px;
+
+    border:none;
+
+    border-radius:30px;
+
+    background:white;
+
+    color:#008cff;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+
+}
+
+
+
+button:hover{
+
+    transform:translateY(-3px);
+
+}
+
+
+
+/* Register */
+
+.register{
+
+    text-align:center;
+
+    margin-top:20px;
+
+}
+
+
+
+.register a{
+
+    color:white;
+
+    font-weight:bold;
+
+}
+
+
+</style>
+
+
+</head>
+
+
+
+<body>
+
+
+
+<div class="login-box">
+
+
+<div class="logo">
+
+<h1>🩺 MediAI Care</h1>
+
+<p>AI Powered Healthcare Assistant</p>
+
+</div>
+
+
+
+<form id="loginForm">
+
+
+
+<div class="input-group">
+
+<input 
+type="email"
+id="email"
+required>
+
+<label>Email Address</label>
+
+</div>
+
+
+
+
+<div class="input-group">
+
+
+<input 
+type="password"
+id="password"
+required>
+
+
+<label>Password</label>
+
+
+<span class="show-password" 
+onclick="togglePassword()">
+
+👁
+
+</span>
+
+
+</div>
+
+
+
+
+<div class="options">
+
+
+<label>
+
+<input type="checkbox">
+
+Remember Me
+
+</label>
+
+
+
+<a href="#">
+Forgot Password?
+
+</a>
+
+
+</div>
+
+
+
+
+<button type="submit">
+
+Login
+
+</button>
+
+
+
+
+<p class="register">
+
+Don't have an account?
+
+<a href="register.html">
+
+Register
+
+</a>
+
+</p>
+
+
+
+
+</form>
+
+
+</div>
+
+
+
+
+
+<script>
+
+
+// Show and Hide Password
+
+function togglePassword(){
+
+
+let password =
+document.getElementById("password");
+
+
+if(password.type==="password"){
+
+password.type="text";
+
+}
+
+else{
+
+password.type="password";
+
+}
+
+
+}
+
+
+
+
+
+// Login Validation
+
+
+document
+.getElementById("loginForm")
+.addEventListener("submit",function(event){
+
+
+event.preventDefault();
+
+
+
+let email =
+document.getElementById("email").value;
+
+
+let password =
+document.getElementById("password").value;
+
+
+
+
+if(email==="admin@mediai.com" &&
+password==="123456"){
+
+
+alert("Login Successful!");
+
+window.location.href="dashboard.html";
+
+
+}
+
+else{
+
+
+alert("Invalid Email or Password");
+
+
+}
+
+
+
+});
+
+
+</script>
+
+
+
+</body>
+
+</html>

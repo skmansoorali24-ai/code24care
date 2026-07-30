@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MediAI Care - AI Symptom Checker</title>
+
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
+
+
+body{
+
+    min-height:100vh;
+
+    background:#f3f8fc;
+
+}
+
+
+
+/* Header */
+
+.header{
+
+    background:linear-gradient(135deg,#0072ff,#00c6ff);
+
+    color:white;
+
+    padding:25px;
+
+    text-align:center;
+
+}
+
+
+.header h1{
+
+    font-size:35px;
+
+}
+
+
+
+/* Container */
+
+.container{
+
+    width:90%;
+
+    max-width:900px;
+
+    margin:30px auto;
+
+}
+
+
+
+/* AI Box */
+
+.ai-box{
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:20px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.1);
+
+}
+
+
+
+/* Chat Area */
+
+.chat{
+
+    background:#f5f9ff;
+
+    padding:20px;
+
+    border-radius:15px;
+
+    height:250px;
+
+    overflow-y:auto;
+
+    margin-bottom:20px;
+
+}
+
+
+
+.message{
+
+    padding:12px 18px;
+
+    margin:10px;
+
+    border-radius:20px;
+
+    max-width:75%;
+
+}
+
+
+
+.ai{
+
+    background:#0072ff;
+
+    color:white;
+
+}
+
+
+.user{
+
+    background:#ddd;
+
+    margin-left:auto;
+
+}
+
+
+
+
+
+/* Input */
+
+
+.input-area{
+
+    display:flex;
+
+    gap:15px;
+
+}
+
+
+textarea{
+
+
+    flex:1;
+
+    height:80px;
+
+    padding:15px;
+
+    border-radius:15px;
+
+    border:1px solid #ccc;
+
+    resize:none;
+
+    font-size:16px;
+
+}
+
+
+
+
+button{
+
+    background:#0072ff;
+
+    color:white;
+
+    border:none;
+
+    padding:15px 25px;
+
+    border-radius:25px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+}
+
+
+
+button:hover{
+
+    background:#0056c7;
+
+}
+
+
+
+/* Result */
+
+
+.result{
+
+    margin-top:30px;
+
+    display:none;
+
+    background:#eafff5;
+
+    padding:25px;
+
+    border-radius:20px;
+
+}
+
+
+
+.result h2{
+
+    color:#008f5a;
+
+}
+
+
+
+
+.card{
+
+    background:white;
+
+    margin-top:15px;
+
+    padding:20px;
+
+    border-radius:15px;
+
+    box-shadow:0 5px 15px #ddd;
+
+}
+
+
+
+</style>
+
+
+</head>
+
+
+
+<body>
+
+
+
+<div class="header">
+
+<h1>
+🤖 MediAI Symptom Checker
+</h1>
+
+<p>
+AI Based Preliminary Health Analysis
+</p>
+
+</div>
+
+
+
+
+
+
+<div class="container">
+
+
+
+<div class="ai-box">
+
+
+
+<div class="chat" id="chat">
+
+
+<div class="message ai">
+
+Hello! I am MediAI Assistant.
+<br>
+Tell me your symptoms.
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="input-area">
+
+
+<textarea 
+id="symptoms"
+placeholder="Example: fever, cough, headache...">
+</textarea>
+
+
+
+<button onclick="analyze()">
+
+Analyze
+
+</button>
+
+
+</div>
+
+
+
+
+<div class="result" id="result">
+
+
+<h2>
+AI Analysis Result
+</h2>
+
+
+<div class="card">
+
+<b>
+Possible Condition:
+</b>
+
+<p id="disease"></p>
+
+</div>
+
+
+
+<div class="card">
+
+<b>
+Risk Level:
+</b>
+
+<p id="risk"></p>
+
+</div>
+
+
+
+
+<div class="card">
+
+<b>
+Recommended Action:
+</b>
+
+<p id="advice"></p>
+
+</div>
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<script>
+
+
+function analyze(){
+
+
+let symptoms =
+document.getElementById("symptoms").value.toLowerCase();
+
+
+
+if(symptoms===""){
+
+alert("Please enter symptoms");
+
+return;
+
+}
+
+
+
+
+
+let chat =
+document.getElementById("chat");
+
+
+
+chat.innerHTML +=
+
+`
+<div class="message user">
+
+${symptoms}
+
+</div>
+`;
+
+
+
+
+
+let disease =
+"Common Cold / Viral Infection";
+
+let risk =
+"Low";
+
+let advice =
+"Take proper rest, drink fluids and consult a doctor if symptoms continue.";
+
+
+
+
+
+if(symptoms.includes("chest") ||
+symptoms.includes("breathing")){
+
+
+disease =
+"Possible Respiratory Issue";
+
+risk =
+"Medium";
+
+advice =
+"Consult a healthcare professional immediately.";
+
+}
+
+
+
+else if(symptoms.includes("fever") &&
+symptoms.includes("body pain")){
+
+
+disease =
+"Possible Viral Fever";
+
+risk =
+"Medium";
+
+advice =
+"Monitor temperature and take medical advice.";
+
+}
+
+
+
+
+document.getElementById("disease")
+.innerHTML=disease;
+
+
+document.getElementById("risk")
+.innerHTML=risk;
+
+
+document.getElementById("advice")
+.innerHTML=advice;
+
+
+
+document.getElementById("result")
+.style.display="block";
+
+
+
+chat.innerHTML +=
+
+`
+<div class="message ai">
+
+Analysis completed.
+Check your health report below.
+
+</div>
+
+`;
+
+
+
+}
+
+
+
+</script>
+
+
+
+</body>
+
+</html>

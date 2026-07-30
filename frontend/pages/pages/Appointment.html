@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MediAI Care - Appointment</title>
+
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
+
+
+body{
+
+    background:#f4f8fb;
+
+}
+
+
+
+/* Header */
+
+
+.header{
+
+    background:linear-gradient(135deg,#0072ff,#00c6ff);
+
+    color:white;
+
+    padding:30px;
+
+    text-align:center;
+
+}
+
+
+.header h1{
+
+    font-size:35px;
+
+}
+
+
+
+
+.container{
+
+    width:90%;
+
+    max-width:1100px;
+
+    margin:30px auto;
+
+}
+
+
+
+
+/* Doctor Cards */
+
+
+.doctors{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+
+    gap:20px;
+
+}
+
+
+
+.doctor-card{
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:20px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.1);
+
+    text-align:center;
+
+    transition:.3s;
+
+}
+
+
+.doctor-card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+
+
+.doctor-card h2{
+
+    color:#0072ff;
+
+}
+
+
+
+.doctor-img{
+
+    font-size:50px;
+
+}
+
+
+
+
+
+button{
+
+
+    margin-top:15px;
+
+    padding:12px 25px;
+
+    border:none;
+
+    border-radius:25px;
+
+    background:#0072ff;
+
+    color:white;
+
+    cursor:pointer;
+
+}
+
+
+
+button:hover{
+
+    background:#0056c7;
+
+}
+
+
+
+
+
+/* Booking Section */
+
+
+.booking{
+
+    background:white;
+
+    margin-top:40px;
+
+    padding:30px;
+
+    border-radius:20px;
+
+    box-shadow:0 10px 25px #ddd;
+
+}
+
+
+
+.input-box{
+
+    margin:20px 0;
+
+}
+
+
+
+input,select{
+
+
+    width:100%;
+
+    padding:15px;
+
+    border-radius:10px;
+
+    border:1px solid #ccc;
+
+    font-size:15px;
+
+}
+
+
+
+
+
+/* Appointment History */
+
+
+.history{
+
+    margin-top:30px;
+
+    display:none;
+
+    background:#eafff5;
+
+    padding:25px;
+
+    border-radius:20px;
+
+}
+
+
+
+.history h2{
+
+    color:#008f5a;
+
+}
+
+
+
+</style>
+
+
+</head>
+
+
+
+
+<body>
+
+
+
+<div class="header">
+
+<h1>
+📅 MediAI Appointment System
+</h1>
+
+
+<p>
+Book appointments with healthcare specialists
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="container">
+
+
+
+
+
+<h2>
+Available Doctors
+</h2>
+
+
+
+
+<div class="doctors">
+
+
+
+
+
+<div class="doctor-card">
+
+
+<div class="doctor-img">
+
+👩‍⚕️
+
+</div>
+
+
+<h2>
+Dr. Priya Sharma
+</h2>
+
+
+<p>
+Cardiologist
+</p>
+
+
+<p>
+⭐ 4.8 Rating
+</p>
+
+
+<button onclick="selectDoctor('Dr. Priya Sharma')">
+
+Book Now
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="doctor-card">
+
+
+<div class="doctor-img">
+
+👨‍⚕️
+
+</div>
+
+
+<h2>
+Dr. Rahul Verma
+</h2>
+
+
+<p>
+Neurologist
+</p>
+
+
+<p>
+⭐ 4.7 Rating
+</p>
+
+
+<button onclick="selectDoctor('Dr. Rahul Verma')">
+
+Book Now
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="doctor-card">
+
+
+<div class="doctor-img">
+
+👩‍⚕️
+
+</div>
+
+
+<h2>
+Dr. Ananya Rao
+</h2>
+
+
+<p>
+General Physician
+</p>
+
+
+<p>
+⭐ 4.9 Rating
+</p>
+
+
+<button onclick="selectDoctor('Dr. Ananya Rao')">
+
+Book Now
+
+</button>
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="booking">
+
+
+
+<h2>
+Book Appointment
+</h2>
+
+
+
+<form id="appointmentForm">
+
+
+
+<div class="input-box">
+
+<label>
+Selected Doctor
+</label>
+
+
+<input 
+type="text"
+id="doctor"
+readonly>
+
+
+</div>
+
+
+
+
+
+<div class="input-box">
+
+<label>
+Appointment Date
+</label>
+
+
+<input 
+type="date"
+id="date"
+required>
+
+
+</div>
+
+
+
+
+
+<div class="input-box">
+
+<label>
+Select Time
+</label>
+
+
+<select id="time">
+
+
+<option>
+10:00 AM
+</option>
+
+
+<option>
+12:00 PM
+</option>
+
+
+<option>
+4:00 PM
+</option>
+
+
+<option>
+6:00 PM
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+
+
+<div class="input-box">
+
+<label>
+Reason for Visit
+</label>
+
+
+<input 
+type="text"
+id="reason"
+placeholder="Enter symptoms or reason"
+required>
+
+
+</div>
+
+
+
+
+
+<button type="submit">
+
+Confirm Appointment
+
+</button>
+
+
+
+</form>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="history" id="history">
+
+
+<h2>
+Appointment Confirmed ✅
+</h2>
+
+
+<p id="details"></p>
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<script>
+
+
+function selectDoctor(name){
+
+
+document.getElementById("doctor").value=name;
+
+
+}
+
+
+
+
+
+document
+.getElementById("appointmentForm")
+.addEventListener("submit",function(e){
+
+
+e.preventDefault();
+
+
+
+let doctor =
+document.getElementById("doctor").value;
+
+
+let date =
+document.getElementById("date").value;
+
+
+let time =
+document.getElementById("time").value;
+
+
+let reason =
+document.getElementById("reason").value;
+
+
+
+if(doctor===""){
+
+
+alert("Please select a doctor");
+
+return;
+
+}
+
+
+
+
+document.getElementById("details").innerHTML=
+
+`
+Doctor: ${doctor}<br>
+Date: ${date}<br>
+Time: ${time}<br>
+Reason: ${reason}
+`;
+
+
+
+document.getElementById("history")
+.style.display="block";
+
+
+
+alert("Appointment booked successfully!");
+
+
+
+});
+
+
+
+</script>
+
+
+
+
+</body>
+
+</html>
