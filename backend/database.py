@@ -39,9 +39,9 @@ SUPABASE_URL = os.getenv("SUPABASE_URL", "")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY", "")
 
 supabase_client = None
-if SUPABASE_URL and SUPABASE_KEY and not SUPABASE_URL.startswith("https://your-supabase"):
+if SUPABASE_URL and SUPABASE_KEY and not SUPABASE_URL.startswith("https://your-") and not SUPABASE_KEY.startswith("your-"):
     try:
         from supabase import create_client
         supabase_client = create_client(SUPABASE_URL, SUPABASE_KEY)
-    except Exception as e:
-        print(f"Supabase client initialization notice: {e}")
+    except Exception:
+        pass
