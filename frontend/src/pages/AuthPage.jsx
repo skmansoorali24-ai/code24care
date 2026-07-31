@@ -61,7 +61,19 @@ export const AuthPage = () => {
         }
       }
     } catch (err) {
-      setError(err.response?.data?.detail || 'Authentication failed. Please check your credentials.');
+      console.error('Auth request failed:', err);
+      const detail = err.response?.data?.detail;
+      let errorMsg = 'Authentication failed. Please check your inputs and try again.';
+      if (typeof detail === 'string') {
+        errorMsg = detail;
+      } else if (Array.isArray(detail)) {
+        errorMsg = detail.map(d => (typeof d === 'string' ? d : d.msg || JSON.stringify(d))).join(', ');
+      } else if (detail && typeof detail === 'object') {
+        errorMsg = detail.msg || JSON.stringify(detail);
+      } else if (err.message) {
+        errorMsg = err.message;
+      }
+      setError(errorMsg);
     } finally {
       setSubmitting(false);
     }

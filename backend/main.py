@@ -132,6 +132,7 @@ def home():
     return {"message": "MediCare Hub API Running", "docs": "/docs"}
 
 
+@app.post("/auth/register", response_model=TokenResponse)
 @app.post("/api/auth/register", response_model=TokenResponse)
 def register(payload: UserRegister, db: Session = Depends(get_db)):
     clean_email = str(payload.email).strip().lower()
@@ -146,28 +147,33 @@ def register(payload: UserRegister, db: Session = Depends(get_db)):
         phone=payload.phone.strip() if payload.phone else None,
         role=payload.role,
     )
-    db.add(user)
-    db.commit()
-    db.refresh(user)
-
-    if payload.role == "hospital":
-        hospital_name = payload.hospital_name or payload.full_name
-        hospital_city = payload.city or "New York"
-        hospital_address = payload.address or "123 Care Street"
-        hospital_profile = HospitalDB(
-            user_id=user.id,
-            name=hospital_name,
-            address=hospital_address,
-            city=hospital_city,
-            phone=payload.phone or "+1 (555) 000-0000",
-            email=clean_email,
-            tagline="New hospital partner",
-            description="Hospital profile created during registration.",
-            facilities="Emergency 24/7, ICU, Pharmacy, Diagnostics, Radiology, Surgery",
-        )
-        db.add(hospital_profile)
+    try:
+        db.add(user)
         db.commit()
-        db.refresh(user)  # Refresh user so user.hospital relationship resolves correctly
+        db.refresh(user)
+
+        if payload.role == "hospital":
+            hospital_name = payload.hospital_name or payload.full_name
+            hospital_city = payload.city or "New York"
+            hospital_address = payload.address or "123 Care Street"
+            hospital_profile = HospitalDB(
+                user_id=user.id,
+                name=hospital_name,
+                address=hospital_address,
+                city=hospital_city,
+                phone=payload.phone or "+1 (555) 000-0000",
+                email=clean_email,
+                tagline="New hospital partner",
+                description="Hospital profile created during registration.",
+                facilities="Emergency 24/7, ICU, Pharmacy, Diagnostics, Radiology, Surgery",
+            )
+            db.add(hospital_profile)
+            db.commit()
+            db.refresh(user)  # Refresh user so user.hospital relationship resolves correctly
+    except Exception as e:
+        db.rollback()
+        print(f"Registration error: {e}")
+        raise HTTPException(status_code=400, detail="Registration failed. This email or account may already exist.")
 
     access_token = create_access_token({"sub": user.id})
     return TokenResponse(
@@ -177,6 +183,7 @@ def register(payload: UserRegister, db: Session = Depends(get_db)):
     )
 
 
+@app.post("/auth/login", response_model=TokenResponse)
 @app.post("/api/auth/login", response_model=TokenResponse)
 def login(payload: UserLogin, db: Session = Depends(get_db)):
     clean_email = str(payload.email).strip().lower()
@@ -194,6 +201,7 @@ def login(payload: UserLogin, db: Session = Depends(get_db)):
     )
 
 
+@app.get("/auth/me", response_model=UserResponse)
 @app.get("/api/auth/me", response_model=UserResponse)
 def auth_me(current_user: UserDB = Depends(get_current_user)):
     return serialize_user(current_user)
