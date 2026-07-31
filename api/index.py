@@ -7,8 +7,9 @@ backend_dir = Path(__file__).resolve().parent.parent / "backend"
 if str(backend_dir) not in sys.path:
     sys.path.insert(0, str(backend_dir))
 
-try:
-    from main import app
-except ImportError:
-    from backend.main import app
+from backend.main import app
+
+# Expose app and handler for Vercel Python serverless runtime
+handler = app
+
 
