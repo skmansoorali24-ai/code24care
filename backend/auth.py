@@ -24,7 +24,15 @@ def hash_password(password: str) -> str:
     return hashlib.sha256((password + salt).encode('utf-8')).hexdigest()
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return hash_password(plain_password) == hashed_password
+    clean_pwd = plain_password.strip()
+    if hash_password(plain_password) == hashed_password or hash_password(clean_pwd) == hashed_password:
+        return True
+    try:
+        from passlib.context import CryptContext
+        pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+        return pwd_context.verify(plain_password, hashed_password) or pwd_context.verify(clean_pwd, hashed_password)
+    except Exception:
+        return False
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
     to_encode = data.copy()
@@ -52,7 +60,7 @@ def get_current_user(
         user_id: str = payload.get("sub")
         if user_id is None:
             raise credentials_exception
-    except JWTError:
+    except Exception:
         raise credentials_exception
 
     user = db.query(UserDB).filter(UserDB.id == user_id).first()
