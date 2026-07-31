@@ -34,22 +34,24 @@ export const AuthPage = () => {
 
     try {
       if (mode === 'login') {
-        const user = await login(email, password);
+        const cleanEmail = email.trim().toLowerCase();
+        const user = await login(cleanEmail, password);
         if (user.role === 'hospital') {
           navigate('/hospital-dashboard');
         } else {
           navigate('/patient-dashboard');
         }
       } else {
+        const cleanEmail = email.trim().toLowerCase();
         const payload = {
-          email,
+          email: cleanEmail,
           password,
-          full_name: fullName,
-          phone,
+          full_name: fullName.trim(),
+          phone: phone ? phone.trim() : undefined,
           role,
-          hospital_name: role === 'hospital' ? hospitalName : undefined,
-          city: role === 'hospital' ? city : undefined,
-          address: role === 'hospital' ? address : undefined
+          hospital_name: role === 'hospital' ? (hospitalName || fullName).trim() : undefined,
+          city: role === 'hospital' ? (city || 'New York').trim() : undefined,
+          address: role === 'hospital' ? (address || '123 Care Street').trim() : undefined
         };
         const user = await register(payload);
         if (user.role === 'hospital') {

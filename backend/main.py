@@ -134,22 +134,22 @@ def home():
 
 @app.post("/api/auth/register", response_model=TokenResponse)
 def register(payload: UserRegister, db: Session = Depends(get_db)):
-    existing_user = db.query(UserDB).filter(UserDB.email == payload.email).first()
+    clean_email = str(payload.email).strip().lower()
+    existing_user = db.query(UserDB).filter(UserDB.email == clean_email).first()
     if existing_user:
-        raise HTTPException(status_code=400, detail="Email already exists")
+        raise HTTPException(status_code=400, detail="Email already registered. Please sign in.")
 
     user = UserDB(
-        email=str(payload.email),
+        email=clean_email,
         password_hash=hash_password(payload.password),
-        full_name=payload.full_name,
-        phone=payload.phone,
+        full_name=payload.full_name.strip(),
+        phone=payload.phone.strip() if payload.phone else None,
         role=payload.role,
     )
     db.add(user)
     db.commit()
     db.refresh(user)
 
-    hospital_profile = None
     if payload.role == "hospital":
         hospital_name = payload.hospital_name or payload.full_name
         hospital_city = payload.city or "New York"
@@ -160,14 +160,14 @@ def register(payload: UserRegister, db: Session = Depends(get_db)):
             address=hospital_address,
             city=hospital_city,
             phone=payload.phone or "+1 (555) 000-0000",
-            email=str(payload.email),
+            email=clean_email,
             tagline="New hospital partner",
             description="Hospital profile created during registration.",
             facilities="Emergency 24/7, ICU, Pharmacy, Diagnostics, Radiology, Surgery",
         )
         db.add(hospital_profile)
         db.commit()
-        db.refresh(hospital_profile)
+        db.refresh(user)  # Refresh user so user.hospital relationship resolves correctly
 
     access_token = create_access_token({"sub": user.id})
     return TokenResponse(
@@ -179,11 +179,12 @@ def register(payload: UserRegister, db: Session = Depends(get_db)):
 
 @app.post("/api/auth/login", response_model=TokenResponse)
 def login(payload: UserLogin, db: Session = Depends(get_db)):
-    user = db.query(UserDB).filter(UserDB.email == payload.email).first()
+    clean_email = str(payload.email).strip().lower()
+    user = db.query(UserDB).filter(UserDB.email == clean_email).first()
     if not user:
-        raise HTTPException(status_code=401, detail="Invalid Email")
+        raise HTTPException(status_code=401, detail="Invalid email or password")
     if not verify_password(payload.password, user.password_hash):
-        raise HTTPException(status_code=401, detail="Wrong Password")
+        raise HTTPException(status_code=401, detail="Invalid email or password")
 
     access_token = create_access_token({"sub": user.id})
     return TokenResponse(
